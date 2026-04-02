@@ -21,13 +21,13 @@ jobs:
           python-version: '3.10'
 
       - name: Install deps
-        run: pip install requests google-generativeai
+        run: pip install requests openai
 
       - name: Run label bot
         run: python labeler.py
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
           ISSUE_TITLE: ${{ github.event.issue.title }}
           ISSUE_BODY: ${{ github.event.issue.body }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}

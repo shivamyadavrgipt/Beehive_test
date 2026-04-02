@@ -1,11 +1,14 @@
 import os
 import requests
-import google.generativeai as genai
+from openai import OpenAI
 import json
 import re
 
 # ---- CONFIG ----
-genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+client = OpenAI(
+    api_key=os.getenv("GROQ_API_KEY"),
+    base_url="https://api.groq.com/openai/v1"
+)
 
 title = os.getenv("ISSUE_TITLE", "")
 body = os.getenv("ISSUE_BODY", "")
@@ -33,13 +36,14 @@ Issue:
 {text}
 """
 
-# ---- GEMINI CALL ----
-model = genai.GenerativeModel("gemini-1.5-flash")
+# ---- GROQ CALL ----
+response = client.chat.completions.create(
+    model="llama3-70b-8192",
+    messages=[{"role": "user", "content": prompt}],
+)
 
-response = model.generate_content(prompt)
-content = response.text.strip()
-
-print("RAW GEMINI:", content)
+content = response.choices[0].message.content.strip()
+print("RAW:", content)
 
 # ---- SAFE JSON PARSE ----
 try:
