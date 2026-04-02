@@ -9,20 +9,20 @@ token = os.getenv("GITHUB_TOKEN")
 
 text = title + " " + body
 
-labels = []
+labels = ["bug"]
 
-# ---- TYPE LABEL ----
-if "error" in text or "crash" in text or "bug" in text:
+# ---- TYPE ----
+if any(word in text for word in ["error", "crash", "crashes", "failed", "bug"]):
     labels.append("bug")
-elif "feature" in text or "add" in text:
+elif any(word in text for word in ["feature", "add", "improve", "enhancement"]):
     labels.append("enhancement")
 
 # ---- DIFFICULTY ----
 length = len(text)
 
-if length < 100:
+if length < 80:
     labels.append("easy")
-elif length < 300:
+elif length < 200:
     labels.append("medium")
 else:
     labels.append("hard")
