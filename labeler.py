@@ -51,20 +51,4 @@ try:
     data = json.loads(content)
     labels = [data["type"], data["difficulty"]]
 except Exception as e:
-    print("PARSE ERROR:", e)
-    labels = ["needs-review"]
-
-print("FINAL LABELS:", labels)
-
-# ---- GITHUB API ----
-url = f"https://api.github.com/repos/{repo}/issues/{issue_number}/labels"
-
-headers = {
-    "Authorization": f"Bearer {token}",
-    "Accept": "application/vnd.github+json"
-}
-
-res = requests.post(url, json={"labels": labels}, headers=headers)
-
-print("STATUS:", res.status_code)
-print("RESPONSE:", res.text)
+    
